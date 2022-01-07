@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <cstdlib>
+#include <stdio.h>
 #include <vector>
 
 /*
@@ -12,20 +13,57 @@
 
 */
 
-int main(int argc, char* argv[]) {
 
-	
-	std::vector<std::string> expression;
-	std::string buffer = " ";
+//разбиение одной строки на вектор строк, состоящих из отдельных операндов 
+std::vector<std::string> stringToStringVec(const std::string& str) {
 
-	while (buffer != '\t') {
+	std::vector<std::string> sVec;
+	std::string temp = "";
+	bool Num = false;
 
-		std::cin >> buffer;
-		expression.push_back(buffer);
+	for (size_t i = 0; i < str.size(); i++) {
+		
+		switch (str[i]) {
 
+		case '*':
+		case '/':
+		case '+':
+		case '-':
+		case ' ':
+			if (Num) {
+				Num = false;
+				sVec.push_back(temp);
+				temp = "";
+			}		
+			if (str[i] != ' ') {
+				sVec.emplace_back(1, str[i]);
+			}
+			break;
+		default:
+			Num = true;
+			temp.append(1, str[i]);
+			break;
+
+		}
 
 	}
-	std::cout << "= ";
+	if (Num) {
+
+		sVec.push_back(temp);
+
+	}
+	return sVec;
+
+}
+
+int main(int argc, char* argv[]) {
+
+
+	std::string expressionT;
+
+	std::getline(std::cin, expressionT);
+	std::vector<std::string> expression = stringToStringVec(expressionT);
+	std::cout << expressionT + std::string(" = ");
 
 	// вычисление умножения и деления
 	for (size_t i = 0; i < expression.size(); i++) {
@@ -33,9 +71,9 @@ int main(int argc, char* argv[]) {
 		std::string op = expression[i];// переменная для определения не является ли данная строка оператором
 		int result;
 
-		if (op == "*") {
+		if (op == std::string("*")) {
 			
-			result = stoi(expression[i - 1]) * stoi(expression[i + 1]);	// stoi - функция преобразования строки string в целое число		
+			result = std::stoi(expression[i - 1]) * std::stoi(expression[i + 1]);	// stoi - функция преобразования строки string в целое число		
 		
 			expression.erase(expression.begin() + i - 1);// удаление числа после оператора
 			expression.erase(expression.begin() + i);// удаление оператора
@@ -76,7 +114,7 @@ int main(int argc, char* argv[]) {
 
 			expression.erase(expression.begin() + i - 1);
 			expression.erase(expression.begin() + i);
-			expression[i - 1] = std::to_string(result);;
+			expression[i - 1] = std::to_string(result);
 
 			i -= 2;
 
