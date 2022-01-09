@@ -12,16 +12,26 @@
 	"2 + 3 * 6 - 10 / 5" превращается в "2 + 18 - 10 / 5", затем "2 + 18 - 2" и т.д.
 
 */
-
+/*
+На оценку «удовлетворительно» :
+ + , -, *, / 
+На оценку «хорошо» :
+() 
+проверку правильности введенного
+На оценку «отлично» :
+sin, cos, tg, ctg, exp
+переменную x
+*/
 
 //разбиение одной строки на вектор строк, состоящих из отдельных операндов 
 std::vector<std::string> stringToStringVec(const std::string& str) {
 
 	std::vector<std::string> sVec;
 	std::string temp = "";
+	const size_t len = str.size();
 	bool Num = false;
 
-	for (size_t i = 0; i < str.size(); i++) {
+	for (size_t i = 0; i < len; i++) {
 		
 		switch (str[i]) {
 
@@ -29,24 +39,86 @@ std::vector<std::string> stringToStringVec(const std::string& str) {
 		case '/':
 		case '+':
 		case '-':
+		case '(':
+		case ')':
 		case ' ':
 			if (Num) {
 				Num = false;
 				sVec.push_back(temp);
 				temp = "";
-			}		
+			}
 			if (str[i] != ' ') {
 				sVec.emplace_back(1, str[i]);
 			}
+			break;
+		case 's':
+
+			if (i + 3 < len && str.substr(i, 4) == "sin(") {
+
+				sVec.push_back("sin(");
+				i += 3;
+
+			}
+			else {
+				exit(-1);
+			}
+
+
+			break;
+		case 'c':
+
+			if (i + 3 < len && str.substr(i, 4) == "cos(") {
+
+				sVec.push_back("cos(");
+				i += 3;
+
+			}
+			else if (i + 3 < len && str.substr(i, 4) == "ctg(") {
+
+				sVec.push_back("ctg(");
+				i += 3;
+
+			}
+			else {
+				exit(-1);
+			}
+
+
+			break;
+		case 't':
+
+				if (i + 2 < len && str.substr(i, 4) == "tg(") {
+
+					sVec.push_back("tg(");
+					i += 2;
+
+				}
+				else {
+					exit(-1);
+				}
+
+				break;
+		case 'e':
+
+			if (i + 3 < len && str.substr(i, 4) == "exp(") {
+
+				sVec.push_back("exp(");
+				i += 2;
+
+			}
+			else {
+				exit(-1);
+			}
+
 			break;
 		default:
 			Num = true;
 			temp.append(1, str[i]);
 			break;
 
-		}
+			}
 
-	}
+		}
 	if (Num) {
 
 		sVec.push_back(temp);
