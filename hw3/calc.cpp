@@ -1,6 +1,6 @@
 #include "calc.h"
 
-//проверка правильности выражения
+
 void check(std::vector<std::string>& expression) {
 
 	size_t op = 0;
@@ -48,7 +48,6 @@ void check(std::vector<std::string>& expression) {
 
 }
 
-//разбиение одной строки на вектор строк, состоящих из отдельных операндов 
 std::vector<std::string> stringToStringVec(const std::string& str) {
 
 	std::vector<std::string> sVec;
@@ -165,7 +164,6 @@ std::vector<std::string> stringToStringVec(const std::string& str) {
 
 }
 
-//поиск закрывающей скобки в блоке с проверкой на вложенные скобки
 strit findClosingParentheses(strit begin, strit end) {
 
 	size_t opNum = 0;
@@ -196,7 +194,6 @@ strit findClosingParentheses(strit begin, strit end) {
 
 }
 
-//выполнение операций по блокам
 void blockResolver(std::vector<std::string>& expression) {
 	//(421-53)*524-(43/(444+445))
 
